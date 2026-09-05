@@ -4,7 +4,16 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
-        align-items: center;
+  @media (max-width: 600px) {
+    .photo-carousel {
+        height: 300px;
+    }
+
+    .photo {
+        width: 190px;
+        height: 190px;
+    }
+  }      align-items: center;
         background: lab(0% 0 0 / 0.9803921568627451);
         font-family: Arial, sans-serif;
         text-align: center;
@@ -20,7 +29,7 @@
       }
       .b1{
         font-size:20px;
-        font-style: bold;
+        font-weight: bold;
         background: linear-gradient(135deg, #0e83e8, #d8e5ed, #fa74f2);
         margin: 10px;
         padding: 10px;
@@ -225,24 +234,25 @@
 }
 
 
-
 @media (max-width: 600px) {
-
     .photo-carousel {
         height: 300px;
     }
 
     .photo {
-        width: 210px;
-        height: 210px;
+        width: 190px;
+        height: 190px;
     }
-
 }
+
+
 
 .message{
   color: gold;
   background-color: hwb(0 48% 50%) ;
-  width: 600px;
+  width: 85%;
+  max-width: 600px;
+  box-sizing: border-box;
   padding: 10px;
   border-radius: 50px
   
