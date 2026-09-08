@@ -1,23 +1,14 @@
-   body{
-        margin: 0;
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-  @media (max-width: 600px) {
-    .photo-carousel {
-        height: 300px;
-    }
-
-    .photo {
-        width: 190px;
-        height: 190px;
-    }
-  }      align-items: center;
-        background: lab(0% 0 0 / 0.9803921568627451);
-        font-family: Arial, sans-serif;
-        text-align: center;
-      }
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: lab(0% 0 0 / 0.9803921568627451);
+    font-family: Arial, sans-serif;
+    text-align: center;
+  }
       
       h1 {
         font-size: 50px;
@@ -442,4 +433,242 @@
     border-radius: 10px;
     border: none;
     margin: 10px;
+}
+
+#pin-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: #000;
+}
+
+.pin-box {
+    width: 85%;
+    max-width: 350px;
+    padding: 30px;
+    box-sizing: border-box;
+
+    background: #111;
+    border-radius: 20px;
+    text-align: center;
+}
+
+.pin-box h2 {
+    color: white;
+}
+
+.pin-box p {
+    color: #aaa;
+}
+
+#pin-input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 14px;
+    margin: 15px 0;
+
+    border: none;
+    border-radius: 10px;
+
+    text-align: center;
+    font-size: 22px;
+    letter-spacing: 5px;
+}
+
+.pin-box button {
+    width: 100%;
+    padding: 12px;
+
+    border: none;
+    border-radius: 10px;
+
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#pin-error {
+    color: #ff5555;
+    min-height: 20px;
+}
+
+#pin-dots {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+#pin-dots span {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #444;
+    transition: 0.2s ease;
+}
+
+#pin-dots span.active {
+    background: white;
+    transform: scale(1.2);
+}
+
+.pin-keypad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.pin-keypad button {
+    height: 80px;
+    width: 80px;
+    border: none;
+    border-radius: 50%;
+    background: #333;
+    color: white;
+    font-size: 30px;
+    cursor: pointer;
+    transition: 0.15s;
+}
+
+.pin-keypad button:active {
+    transform: scale(0.9);
+    background: #555;
+}
+
+.pin-keypad .empty-key {
+    visibility: hidden;
+}
+
+/* PIN screen animation */
+@keyframes pinAppear {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.pin-box {
+    animation: pinAppear 0.5s ease;
+}
+
+@keyframes pinShake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+
+    20% {
+        transform: translateX(-10px);
+    }
+
+    40% {
+        transform: translateX(10px);
+    }
+
+    60% {
+        transform: translateX(-10px);
+    }
+
+    80% {
+        transform: translateX(10px);
+    }
+}
+
+.pin-box.shake {
+    animation: pinShake 0.4s ease;
+}
+
+/* Secret message floating button */
+.secret-button {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+
+    width: 55px;
+    height: 55px;
+
+    border: none;
+    border-radius: 50%;
+
+    background: white;
+    color: black;
+
+    font-size: 25px;
+
+    cursor: pointer;
+
+    z-index: 9998;
+
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+
+    transition: 0.2s ease;
+}
+
+.secret-button:active {
+    transform: scale(0.9);
+}
+
+
+/* Secret message container */
+.secret-message {
+    position: fixed;
+
+    bottom: 90px;
+    left: 20px;
+
+    width: 280px;
+    max-width: calc(100% - 40px);
+
+    padding: 25px;
+
+    box-sizing: border-box;
+
+    background: #111;
+    color: white;
+
+    border-radius: 20px;
+
+    box-shadow: 0 5px 25px rgba(0,0,0,0.5);
+
+    z-index: 9999;
+
+    display: none;
+
+    text-align: center;
+}
+
+
+/* Close button */
+.close-secret {
+    position: absolute;
+
+    top: 8px;
+    right: 12px;
+
+    border: none;
+    background: none;
+
+    color: white;
+
+    font-size: 25px;
+
+    cursor: pointer;
+}
+
+
+.secret-message h3 {
+    margin-top: 5px;
+}
+
+.secret-message p {
+    color: #ddd;
+    line-height: 1.5;
 }

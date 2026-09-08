@@ -25,13 +25,56 @@
 
   </div>
   
+  <audio id="bgMusic" loop>
+    <source src="Tom Odell - Another Love (Lyrics).mp3" type="audio/mpeg">
+  </audio>
+  
+  <div id="pin-screen">
+    <div class="pin-box">
+
+    <h2>🔒 Enter PIN</h2>
+    <p>This card is protected.</p>
+
+    <div id="pin-dots">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <div class="pin-keypad">
+
+        <button onclick="enterPin('1')">1</button>
+        <button onclick="enterPin('2')">2</button>
+        <button onclick="enterPin('3')">3</button>
+
+        <button onclick="enterPin('4')">4</button>
+        <button onclick="enterPin('5')">5</button>
+        <button onclick="enterPin('6')">6</button>
+
+        <button onclick="enterPin('7')">7</button>
+        <button onclick="enterPin('8')">8</button>
+        <button onclick="enterPin('9')">9</button>
+
+        <button class="empty-key"></button>
+        <button onclick="enterPin('0')">0</button>
+        <button onclick="deletePin()">⌫</button>
+
+    </div>
+
+    <p id="pin-error"></p>
+
+    </div>
+  </div>
   <div class="division">
     <h1>Yoco's Card</h1>
     
     <a href="http://photobooth-io.cc" target="_blank">
       <button class="b1">📸PHOTOBOOTH📸</button>
     </a>
-  
+   
   </div>
   <button class="share-button" onclick="shareCard()">
     🔗 SHARE CARD
@@ -71,9 +114,143 @@
   <footer class="footer">
     Made by @Yoco Brandon Espinoza
   </footer>
+
+<!-- Secret Message Button -->
+<button class="secret-button" onclick="toggleSecretMessage()">
+    💌
+</button>
+
+<!-- Secret Message Box -->
+<div id="secret-message" class="secret-message">
+    <button class="secret-button" onclick="toggleSecretMessage()">
+    💌
+    </button>
+
+    <h3>💌 Message</h3>
+
+    <p>
+        Maybe in another universe, we might be together. Every thing happens for a reason, maybe God also has a reason that he forbids us for being together. God has better plan for us. Now I'm just admiring you till i find my true love. Love can wait, and so can I.
+    </p>
+</div>
   
-/JavaScript
 <script>
+const CARD_PIN = "081810";
+let enteredPin = "";
+let attempts = 0;
+let lockedUntil = 0;
+function enterPin(number) {
+
+    if (Date.now() < lockedUntil) {
+        return;
+    }
+
+    if (enteredPin.length >= CARD_PIN.length) {
+        return;
+    }
+
+    enteredPin += number;
+
+    updatePinDots();
+
+    if (enteredPin.length === CARD_PIN.length) {
+        checkPin();
+    }
+}
+
+
+function deletePin() {
+
+    if (Date.now() < lockedUntil) {
+        return;
+    }
+
+    enteredPin = enteredPin.slice(0, -1);
+
+    updatePinDots();
+}
+
+
+function updatePinDots() {
+
+    const dots = document.querySelectorAll("#pin-dots span");
+
+    dots.forEach((dot, index) => {
+
+        if (index < enteredPin.length) {
+            dot.classList.add("active");
+        } else {
+            dot.classList.remove("active");
+        }
+
+    });
+}
+
+
+function checkPin() {
+
+    const error = document.getElementById("pin-error");
+
+    if (enteredPin === CARD_PIN) {
+
+        // Correct PIN
+        document.getElementById("pin-screen").style.display = "none";
+
+        document.body.classList.add("unlocked");
+
+        enteredPin = "";
+        attempts = 0;
+
+        updatePinDots();
+
+    } else {
+
+        attempts++;
+
+        const pinBox = document.querySelector(".pin-box");
+
+pinBox.classList.remove("shake");
+
+void pinBox.offsetWidth;
+
+pinBox.classList.add("shake");
+      
+        enteredPin = "";
+        updatePinDots();
+
+        if (attempts >= 5) {
+
+            lockedUntil = Date.now() + 30000;
+
+            error.textContent =
+                "🔒 Too many attempts. Wait 30 seconds.";
+
+            setTimeout(() => {
+                error.textContent = "";
+            }, 30000);
+
+        } else if (attempts >= 3) {
+
+            lockedUntil = Date.now() + 10000;
+
+            error.textContent =
+                "🔒 Too many attempts. Wait 10 seconds.";
+
+            setTimeout(() => {
+                error.textContent = "";
+            }, 10000);
+
+        } else {
+
+            error.textContent =
+                "❌ Incorrect PIN";
+
+            setTimeout(() => {
+                error.textContent = "";
+            }, 1500);
+        }
+    }
+}
+  
 const photos = document.querySelectorAll(".photo");
 const carousel = document.getElementById("carousel");
 
@@ -198,18 +375,22 @@ updatePhotos();
 window.addEventListener("load", () => {
     const skeleton = document.getElementById("skeleton-screen");
 
+   setTimeout(() => {
+    skeleton.style.opacity = "0";
+    skeleton.style.transition = "opacity 0.4s ease";
+
     setTimeout(() => {
-        skeleton.style.opacity = "0";
-        skeleton.style.transition = "opacity 0.4s ease";
+        skeleton.remove();
 
-        setTimeout(() => {
-            skeleton.remove();
-        }, 400);
+        // Show PIN screen after skeleton
+        document.getElementById("pin-screen").style.display = "flex";
 
-    }, 500);
+    }, 400);
+
+}, 500);
 });
 
-  const particles = document.getElementById("particles");
+const particles = document.getElementById("particles");
 
 for (let i = 0; i < 40; i++) {
     const particle = document.createElement("div");
@@ -245,6 +426,33 @@ async function shareCard() {
         }
     } catch (error) {
         console.log("Sharing cancelled.");
+    }
+}
+
+function toggleSecretMessage() {
+
+    const message = document.getElementById("secret-message");
+    const music = document.getElementById("bgMusic");
+
+    if (message.style.display === "block") {
+
+        // Close message
+        message.style.display = "none";
+
+        // Stop music
+        music.pause();
+        music.currentTime = 0;
+
+    } else {
+
+        // Open secret message
+        message.style.display = "block";
+
+        // Play music automatically
+        music.play().catch(error => {
+            console.log("Music could not start:", error);
+        });
+
     }
 }
   
