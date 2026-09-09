@@ -701,3 +701,329 @@ body {
     opacity: 0;
     visibility: hidden;
 }
+
+    /* ========================================= */
+/* 🎲 MESSAGE BIBLE VERSE */
+/* ========================================= */
+
+.message {
+    position: relative;
+
+    width: min(90%, 650px);
+    min-height: 120px;
+
+    margin: 25px auto;
+
+    padding: 20px 25px;
+
+    box-sizing: border-box;
+
+    display: flex;
+    align-items: center;
+
+    gap: 20px;
+
+    border-radius: 25px;
+
+    background:
+        radial-gradient(
+            circle at 15% 50%,
+            rgba(255, 80, 180, .16),
+            transparent 35%
+        ),
+        linear-gradient(
+            135deg,
+            #080808,
+            #151015,
+            #080808
+        );
+
+    border: 1px solid rgba(255, 105, 190, .35);
+
+    box-shadow:
+        0 0 20px rgba(255, 80, 180, .12),
+        inset 0 0 30px rgba(255, 80, 180, .04);
+
+    overflow: hidden;
+
+    text-align: left;
+
+    transition:
+        box-shadow .5s ease,
+        border-color .5s ease;
+}
+
+
+/* ========================================= */
+/* 🎲 DICE */
+/* ========================================= */
+
+.message-dice {
+    flex-shrink: 0;
+
+    width: 65px;
+    height: 65px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 43px;
+
+    cursor: pointer;
+
+    border-radius: 18px;
+
+    background: rgba(255, 105, 180, .08);
+
+    border: 1px solid rgba(255, 105, 180, .3);
+
+    box-shadow:
+        0 0 12px rgba(255, 105, 180, .2);
+
+    user-select: none;
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease;
+}
+
+
+.message-dice:hover {
+    transform: scale(1.08);
+
+    box-shadow:
+        0 0 18px rgba(255, 105, 180, .55),
+        0 0 35px rgba(255, 105, 180, .2);
+}
+
+
+/* 🎲 DICE ROLL */
+
+.message-dice.rolling {
+    animation: messageDiceRoll .9s cubic-bezier(.2,.8,.2,1);
+}
+
+
+@keyframes messageDiceRoll {
+
+    0% {
+        transform: rotate(0deg) scale(1);
+    }
+
+    20% {
+        transform: rotate(90deg) scale(1.25);
+    }
+
+    40% {
+        transform: rotate(180deg) scale(.8);
+    }
+
+    60% {
+        transform: rotate(360deg) scale(1.2);
+    }
+
+    80% {
+        transform: rotate(540deg) scale(.9);
+    }
+
+    100% {
+        transform: rotate(720deg) scale(1);
+    }
+}
+
+
+/* ========================================= */
+/* 📖 VERSE CONTENT */
+/* ========================================= */
+
+.message-verse {
+    flex: 1;
+
+    min-width: 0;
+
+    position: relative;
+
+    z-index: 2;
+}
+
+
+.verse-label {
+    display: block;
+
+    margin-bottom: 5px;
+
+    font-size: 10px;
+
+    letter-spacing: 2px;
+
+    color: rgba(255, 255, 255, .5);
+}
+
+
+/* Bible reference */
+
+#messageVerseReference {
+    margin: 4px 0 8px;
+
+    font-size: 19px;
+
+    color: #ff72bd;
+
+    text-shadow:
+        0 0 8px rgba(255, 105, 180, .7),
+        0 0 20px rgba(255, 105, 180, .25);
+
+    transition:
+        opacity .3s ease,
+        transform .3s ease;
+}
+
+
+/* Verse text */
+
+#messageVerseText {
+    margin: 0;
+
+    font-size: 15px;
+
+    line-height: 1.6;
+
+    color: rgba(255, 255, 255, .88);
+
+    transition:
+        opacity .4s ease,
+        transform .4s ease,
+        filter .4s ease;
+}
+
+
+/* ========================================= */
+/* ✨ VERSE GLOW */
+/* ========================================= */
+
+.message.verse-glow {
+
+    border-color:
+        rgba(255, 105, 190, .7);
+
+    box-shadow:
+        0 0 20px rgba(255, 80, 180, .3),
+        0 0 50px rgba(255, 80, 180, .15),
+        inset 0 0 35px rgba(255, 80, 180, .08);
+}
+
+
+.message.verse-glow #messageVerseReference {
+
+    animation:
+        referenceLight 1.2s ease;
+}
+
+
+.message.verse-glow #messageVerseText {
+
+    animation:
+        verseAppear 1.1s ease;
+}
+
+
+@keyframes referenceLight {
+
+    0% {
+        opacity: 0;
+        transform: translateY(10px);
+
+        text-shadow: none;
+    }
+
+    50% {
+        opacity: 1;
+
+        text-shadow:
+            0 0 10px #ff72bd,
+            0 0 25px #ff72bd,
+            0 0 50px rgba(255, 105, 180, .7);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+@keyframes verseAppear {
+
+    0% {
+        opacity: 0;
+
+        transform:
+            translateY(15px);
+
+        filter: blur(8px);
+    }
+
+    50% {
+        opacity: .7;
+
+        filter: blur(3px);
+    }
+
+    100% {
+        opacity: 1;
+
+        transform:
+            translateY(0);
+
+        filter: blur(0);
+    }
+}
+
+
+/* ========================================= */
+/* 📱 MOBILE */
+/* ========================================= */
+
+@media (max-width: 500px) {
+
+    .message {
+
+        width: 92%;
+
+        padding: 17px;
+
+        gap: 14px;
+
+        min-height: 105px;
+    }
+
+    .message-dice {
+
+        width: 55px;
+        height: 55px;
+
+        font-size: 35px;
+
+        border-radius: 15px;
+    }
+
+    #messageVerseReference {
+
+        font-size: 16px;
+    }
+
+    #messageVerseText {
+
+        font-size: 13px;
+
+        line-height: 1.5;
+    }
+
+    .verse-label {
+
+        font-size: 8px;
+
+        letter-spacing: 1.5px;
+    }
+}
