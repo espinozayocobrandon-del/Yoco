@@ -514,7 +514,14 @@ let messageVerseIndex = 0;
 /* Create a random shuffled list */
 function shuffleMessageVerses() {
 
-    shuffledMessageVerses = [...messageBibleVerses];
+    shuffledMessageVerses = Array.from(
+        new Map(
+            messageBibleVerses.map(verse => [
+                verse.reference,
+                verse
+            ])
+        ).values()
+    );
 
     for (
         let i = shuffledMessageVerses.length - 1;
