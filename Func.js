@@ -328,7 +328,7 @@ function toggleSecretMessage() {
 
     {
         reference: "Philippians 4:13",
-        text: "I can do all things through him who strengthens me."
+        text: "I can do all things through him who strengthens me."        
     },
 
     {
@@ -633,6 +633,7 @@ function rollMessageVerse() {
             message.classList.add(
                 "verse-glow"
             );
+
 
             /* Allow another roll */
             messageDiceRolling = false;
